@@ -1,0 +1,15 @@
+CALL `sp_tc50_get_Relationship_graph`(
+'',#IN `op_id` VARCHAR(32), 
+'1',#IN `op_flag` INT, 
+'',#IN `data_type` INT, 
+'',#IN `cluster_flag` VARCHAR(16),
+'1510557933',#IN batch_no BIGINT(20),
+'2',#IN iteration_cnt INT(10),
+'4',#IN group_id VARCHAR(16),
+'',#IN khh VARCHAR(32),
+'',#IN ip VARCHAR(32),
+'',#IN mac VARCHAR(32),
+'',#IN `include_keyword` VARCHAR(1024),
+'20171014',#IN `date_start` INT, 
+'20171113',#IN `date_end` INT,
+@err_no, @err_msg);

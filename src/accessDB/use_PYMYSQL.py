@@ -33,5 +33,9 @@ with mysql() as cursor:
     '''
     row_1 = cursor.fetchall()
     #print(row_count, row_1)
+    print(row_1)
+    '''
     for rs in row_1:
-        print(rs['load_in_sql'])
+        print(rs)
+        #print(rs['load_in_sql'])
+    '''
