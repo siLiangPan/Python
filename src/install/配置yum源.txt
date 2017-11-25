@@ -1,0 +1,32 @@
+配置yum源 rhel 6.8 
+
+http://www.linuxidc.com/Linux/2013-08/88217.htm
+
+cd /etc/yum.repos.d/
+
+cp rhel-source.repo iso.repo
+cat iso.repo 
+
+#yun源的名字，做到全局唯一不重复
+[rhel-iso]
+#注释信息
+name=Red Hat Enterprise Linux $releasever - $basearch - Source
+#yum源的路径，支持三种协议：http、ftp、file，其中file表示本地文件，/iso才是真实路径
+baseurl=file:///iso
+#1表示启用，0表示禁用
+enabled=1
+#指纹校验，为0表示不校验
+gpgcheck=0
+#校验参考的文件
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-RedHat-release
+
+
+
+实例，本地yum源：
+[centos6]
+name = Enterprise Linux 6.8 DVD1
+baseurl=file:///media/"CentOS_6.8_Final_"
+enabled=1
+gpgcheck=0
+
+

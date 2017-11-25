@@ -6,6 +6,21 @@ pip install xlrd
 pip install pyExcelerator
 pip install Workbook
 
+
+For Excel I/O:
+
+xlrd/xlwt: Excel reading (xlrd) and writing (xlwt)
+openpyxl: openpyxl version 1.6.1 or higher (but lower than 2.0.0), or version 2.2 or higher, 
+for writing .xlsx files (xlrd >= 0.9.0)
+XlsxWriter: Alternative Excel writer
+
+
+workbook (1.1)
+xlrd (1.1.0)
+xlutils (2.0.0)
+xlwt (1.3.0)
+yarl (0.13.0)
+
 二、使用介绍
 
   1、导入模块

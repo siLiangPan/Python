@@ -1,0 +1,81 @@
+
+#https://www.cnblogs.com/configure/p/6027103.html
+# 下载源码
+wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tar.xz
+
+xz -d Python-3.6.3.tar.xz
+tar -xvf Python-3.6.3.tar
+补充：目前可以直接使用 tar xvJf  ***.tar.xz来解压
+
+wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz
+tar -zxf Python-3.6.3.tgz 
+
+安装Python依赖包：
+yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make
+
+编译、安装：
+[root@Python /]# tar -xzvf /usr/local/src/Python-3.6.3.tgz -C /usr/local/src/
+[root@Python /]# cd /usr/local/src/Python-3.6.3
+[root@Python Python-3.6.3]# ./configure --prefix=/usr/local/python
+[root@Python Python-3.6.3]# make -j 4
+[root@Python Python-3.6.3]# make install
+
+
+查看扩展安装包：
+[root@Python /]# /usr/local/python/bin/pip3 list
+pip (9.0.1)
+setuptools (28.8.0)
+
+
+添加Python命令到环境变量：
+[root@Python /]# vim ~/.bash_profile
+PATH=$PATH:$HOME/bin
+改为：
+export PATH=$PATH:$HOME/bin:/usr/local/python/bin
+
+
+使环境变量生效：
+[root@Python /]# source ~/.bash_profile
+
+ln -s /usr/local/python/bin/python3.6 /usr/bin/python3
+
+
+查看Python版本：
+[root@Python /]# python3 -V
+Python 3.6.3
+
+更改系统默认python版本为Python3.6
+[root@Python /]# mv /usr/bin/python /usr/bin/python2.6
+[root@Python /]# ln -s /usr/local/python/bin/python3.6 /usr/bin/python
+
+
+核对Python版本：
+[root@Python /]# python -V
+Python 3.6.3
+
+
+解决python升级后，YUM不能正常工作的问题：
+#vi /usr/bin/yum
+　　将文件头部的
+　　#!/usr/bin/python
+　　改成
+　　#!/usr/bin/python2.6
+
+
+python头部
+#!/usr/bin/python3
+# -*- coding:utf8 -*-
+
+
+cat ~/.bash_profile 
+cat /etc/profile
+
+vi 配置文件
+/etc/virc
+vim 配置文件
+/etc/vimrc
+
+
+
+
+

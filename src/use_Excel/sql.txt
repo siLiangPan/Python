@@ -1,15 +1,10 @@
-CALL `sp_tc50_get_Relationship_graph`(
-'',#IN `op_id` VARCHAR(32), 
-'1',#IN `op_flag` INT, 
-'',#IN `data_type` INT, 
-'',#IN `cluster_flag` VARCHAR(16),
-'1510557933',#IN batch_no BIGINT(20),
-'2',#IN iteration_cnt INT(10),
-'4',#IN group_id VARCHAR(16),
-'',#IN khh VARCHAR(32),
-'',#IN ip VARCHAR(32),
-'',#IN mac VARCHAR(32),
-'',#IN `include_keyword` VARCHAR(1024),
-'20171014',#IN `date_start` INT, 
-'20171113',#IN `date_end` INT,
-@err_no, @err_msg);
+SELECT 
+DATE_FORMAT(ADDDATE(19900101,req.`log_date`),'%Y-%m-%d') AS log_date
+,COUNT(1) AS cnt
+,CAST(SUM(CASE WHEN req.`return_no` = 1 THEN 1 ELSE 0 END) AS SIGNED) AS login_succeed_cnt
+,CAST(SUM(CASE WHEN req.`return_no` = 1 THEN 0 ELSE 1 END) AS SIGNED) AS login_failed_cnt
+,CAST(SUM(CASE WHEN req.`return_no` = -5 THEN 1 ELSE 0 END) AS SIGNED) AS login_5_cnt
+FROM t_tc50_login_req_201711 AS req
+GROUP BY req.`log_date`
+ORDER BY req.`log_date`;
+

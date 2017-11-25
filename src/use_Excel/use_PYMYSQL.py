@@ -8,6 +8,7 @@ import contextlib
 @contextlib.contextmanager
 #def mysql(host='192.168.0.147', port=3357, user='root', passwd='tdx@123', db='tls_his',charset='utf8'):
 def mysql(host='192.168.2.143', port=3306, user='root', passwd='123456', db='tls_his',charset='utf8'):
+#def mysql(host='192.168.2.142', port=3306, user='root', passwd='123456', db='tls_cluster',charset='utf8'):
     conn = pymysql.connect(host=host, port=port, user=user, passwd=passwd, db=db, charset=charset)
     # #游标设置为字典类型
     cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
@@ -39,7 +40,7 @@ with mysql() as cursor:
     sql_str = r'''
     '''
     # 简化导出为excel的sql语句
-    with open('sql.txt', 'r') as f:
+    with open('sql.txt', 'r', encoding='utf-8') as f:
         sql_str=f.read()
     row_count = cursor.execute(sql_str)
     # cursor.execute("select * from user")
@@ -65,6 +66,53 @@ with mysql() as cursor:
     #print (data_dict)
     create_excel(r'db_test.xls',row_1,data_dict)
     print(r'执行完毕！')
+    print(r'开始绘图！')
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    '''
+    indexs = []
+    cnt = []
+    login_succeed_cnt = []
+    login_failed_cnt = []
+    login_5_cnt = []
+    datas = {}
+    for ts in row_1:
+        indexs.append(ts['log_date'])
+        cnt.append(ts['cnt'])
+        login_succeed_cnt.append(int(ts['login_succeed_cnt']))
+        login_failed_cnt.append(int(ts['login_failed_cnt']))
+        login_5_cnt.append(int(ts['login_5_cnt']))
+    datas['cnt'] = cnt
+    datas['login_succeed_cnt'] = login_succeed_cnt
+    datas['login_failed_cnt'] = login_failed_cnt
+    datas['login_5_cnt'] = login_5_cnt 
+    '''
+    df_tmp = pd.DataFrame(data=row_1)
+    #df_tmp['log_date'].dtype = 'datetime64[ns]'
+    #print(df_tmp[data_dict[0]])
+    indexs = []
+    for ts in row_1:
+        indexs.append(ts[data_dict[0]])
+    indexs = np.array(indexs,dtype='datetime64[ns]') 
+
+    '''
+    df = pd.DataFrame(data=row_1, index=df_tmp['log_date'], 
+                      columns=['cnt', 'login_succeed_cnt', 'login_failed_cnt', 'login_5_cnt'])
+    '''
+    df = pd.DataFrame(data=row_1, index=indexs, 
+                      columns=data_dict[1:])
+    #print(data_dict[1:])
+    #print(df)
+    '''
+    indexs = []
+    for ts in len(row_1):
+        indexs.append(ts['log_date'])
+    '''
+    df.plot()
+    plt.legend(loc='best')
+    plt.show()
+    
     '''
     for rs in row_1:
         print(rs)
