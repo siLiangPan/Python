@@ -7,7 +7,7 @@ import contextlib
 #定义上下文管理器，连接后自动关闭连接
 @contextlib.contextmanager
 #def mysql(host='192.168.0.147', port=3357, user='root', passwd='tdx@123', db='tls_his',charset='utf8'):
-def mysql(host='192.168.2.143', port=3306, user='root', passwd='123456', db='tls_his',charset='utf8'):
+def mysql(host='192.168.2.143', port=3306, user='root', passwd='123456', db='tmp_20190330',charset='utf8'):
 #def mysql(host='192.168.2.142', port=3306, user='root', passwd='123456', db='tls_cluster',charset='utf8'):
     conn = pymysql.connect(host=host, port=port, user=user, passwd=passwd, db=db, charset=charset)
     # #游标设置为字典类型
@@ -28,7 +28,7 @@ def create_excel(fileName,db_datas,colnames):
     sheet = book.add_sheet('aa', cell_overwrite_ok=True)    # 其中的aa是这张表的名字
     # 写入字段名
     for j in range(len(colnames)):
-        sheet.write(0, j, colnames[j])
+        sheet.write(0, j, colnames[j])  # 第1行，第j列
     for i in range(0,len(db_datas)):
         for j in range(len(colnames)):
             sheet.write(i+1, j, db_datas[i][colnames[j]])
@@ -65,6 +65,7 @@ with mysql() as cursor:
         data_dict.append(field[0])
     #print (data_dict)
     create_excel(r'db_test.xls',row_1,data_dict)
+    
     print(r'执行完毕！')
     print(r'开始绘图！')
     import pandas as pd

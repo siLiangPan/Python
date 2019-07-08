@@ -1,10 +1,19 @@
-SELECT 
-DATE_FORMAT(ADDDATE(19900101,req.`log_date`),'%Y-%m-%d') AS log_date
-,COUNT(1) AS cnt
-,CAST(SUM(CASE WHEN req.`return_no` = 1 THEN 1 ELSE 0 END) AS SIGNED) AS login_succeed_cnt
-,CAST(SUM(CASE WHEN req.`return_no` = 1 THEN 0 ELSE 1 END) AS SIGNED) AS login_failed_cnt
-,CAST(SUM(CASE WHEN req.`return_no` = -5 THEN 1 ELSE 0 END) AS SIGNED) AS login_5_cnt
-FROM t_tc50_login_req_201711 AS req
-GROUP BY req.`log_date`
-ORDER BY req.`log_date`;
 
+SELECT
+a.`branch_id`,a.`branch_name`,a.`ans_khh` AS ans_khh,a.`khh_name` AS ans_khh_name
+,GROUP_CONCAT(DISTINCT t.version_no) AS right_version
+,GROUP_CONCAT(DISTINCT (CASE WHEN t.version_no IS NULL THEN NULL ELSE b.`WTBH` END)) AS right_wtbh
+,GROUP_CONCAT(DISTINCT (CASE WHEN t.version_no IS NULL THEN a.`XT_CLIVER` ELSE '' END)) AS wrong_version
+,GROUP_CONCAT(DISTINCT (CASE WHEN t.version_no IS NULL THEN b.`WTBH` ELSE NULL END)) AS wrong_wtbh
+FROM t_tc50_login_001 AS a
+JOIN t_tc50_trade_001 AS b
+ON a.`collector` = b.`collector`
+-- and a.`branch_id` = b.`branch_id`
+AND a.`ans_khh` = b.`KHH`
+AND a.`channel_id` = b.`channel_id`
+AND a.`ip` = b.`ip`
+AND a.`mac` = b.`mac`
+LEFT JOIN tmp_version AS t
+ON t.version_no = a.XT_CLIVER
+GROUP BY a.`branch_id`,a.`ans_khh`
+;
